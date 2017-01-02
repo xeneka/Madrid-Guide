@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">MadridGuide</string>
     <string name="activity_main_shop_buttons_text">Shops</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="shops_url">http://madrid-shops.com/json/getShops.php</string>
 </resources>

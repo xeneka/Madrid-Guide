@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setupShopsButton();
+
+
     }
 
     private void setupShopsButton() {

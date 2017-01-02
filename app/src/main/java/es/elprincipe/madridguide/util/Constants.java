@@ -5,7 +5,8 @@ package es.elprincipe.madridguide.util;
  */
 
 public class Constants {
-
     public static String appName = "es.elprincipe.madridguide";
+    public static final String INTENT_KEY_SHOP_DETAIL = appName + "INTENT_KEY_SHOP_DETAIL";
+
 
 }
