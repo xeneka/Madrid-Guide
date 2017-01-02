@@ -12,12 +12,13 @@
     tools:context="es.elprincipe.madridguide.activities.MainActivity">
 
 
-    <Button
-        android:id="@+id/activity_main_shops_buttons"
+    <ImageButton
+        android:id="@+id/activity_main_shops_button"
         android:layout_width="@dimen/activity_main_shops_button_width"
         android:layout_height="@dimen/activity_main_shops_button_width"
         android:layout_centerHorizontal="true"
-        android:text="@string/activity_main_shop_buttons_text"
-        />
+        android:layout_centerVertical="true"
+        android:src="@drawable/shoppingbag"
+        android:background="@color/common_signin_btn_dark_text_focused"/>
 
 </RelativeLayout>

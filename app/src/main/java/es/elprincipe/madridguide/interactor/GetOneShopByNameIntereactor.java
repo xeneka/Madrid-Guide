@@ -31,11 +31,6 @@ public class GetOneShopByNameIntereactor {
             }
         }).start();
 
-
-
-
-
-
     }
 
 }
