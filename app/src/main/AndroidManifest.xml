@@ -46,7 +46,11 @@
             android:name=".manager.db.provider.MadridGuideProvider"
             android:authorities="es.elprincipe.madridguide.manager.db.provider"/>
 
-        <activity android:name=".activities.ShopDetailActivity">
+        <activity
+            android:name=".activities.ShopDetailActivity"
+            android:parentActivityName=".activities.ShopsActivity"
+
+        >
         </activity>
 
         <!-- Google Maps API Key -->

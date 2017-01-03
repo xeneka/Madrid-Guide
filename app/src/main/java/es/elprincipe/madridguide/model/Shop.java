@@ -52,7 +52,8 @@ public class Shop implements Serializable{
     }
 
     public Shop setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl; return this;
+        this.imageUrl = imageUrl;
+        return this;
     }
 
     public String getLogoImgUrl() {

@@ -20,6 +20,9 @@ public class shopEntityShopMapper {
             shop.setLogoImgUrl(entity.getLogoImg());
             shop.setLatitude(entity.getLatitude());
             shop.setLongitude(entity.getLongitude());
+            shop.setImageUrl(entity.getImg());
+            shop.setAddress(entity.getAddress());
+
 
 
             result.add(shop);

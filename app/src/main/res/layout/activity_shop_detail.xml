@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout
+    android:orientation="vertical"
     android:id="@+id/activity_shop_detail"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,18 +13,37 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="es.elprincipe.madridguide.activities.ShopDetailActivity">
+    tools:context="es.elprincipe.madridguide.activities.ShopDetailActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <include layout="@layout/toolbar_activity_detail"></include>
 
 
-    <TextView
+
+    <fragment
+        android:id="@+id/activity_shop_detail_fragment"
+        android:name="es.elprincipe.madridguide.fragments.ShopsDetailFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:text="El Corte ingles"
-        android:id="@+id/activity_shop_detail_name"
-        />
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/shop_detail_image"
-        />
-</RelativeLayout>
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+
+
+
+    />
+
+   <fragment android:id="@+id/map"
+              android:name="com.google.android.gms.maps.MapFragment"
+              android:layout_width="match_parent"
+              android:layout_height="120dp"
+              android:layout_weight="2"
+              android:layout_alignParentBottom="true" android:layout_alignParentLeft="true"
+              android:layout_alignParentStart="true" android:layout_marginBottom="41dp"
+             android:layout_marginTop="@dimen/activity_space_detail"
+
+   >
+
+    </fragment>
+
+
+</LinearLayout>
+</ScrollView>

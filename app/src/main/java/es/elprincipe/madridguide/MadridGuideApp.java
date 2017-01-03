@@ -52,7 +52,7 @@ public class MadridGuideApp extends Application {
     private void insertTestDataInDb() {
         ShopDAO dao = new ShopDAO(getApplicationContext());
 
-
+        dao.deleteAll();
         for (int i = 0; i < 20; i++) {
             Shop shop = new Shop(10,"Shop "+i).setLogoImgUrl("http://www.chartsinfrance.net/covers/aHR0cHM6Ly9pLnNjZG4uY28vaW1hZ2UvZWQwNDJkYjgwNWU0NjE0N2NmOTIyZjIxZmVlZjk1Y2FlZWQ0MTIzNA==.jpg");
             //dao.insert(shop);

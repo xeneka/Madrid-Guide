@@ -2,7 +2,6 @@ package es.elprincipe.madridguide.manager.net;
 
 
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -46,7 +45,7 @@ public class NetworkManager {
 
                     @Override
                     public void onResponse(String response) {
-                        Log.d("JSON", response);
+                        //Log.d("JSON", response);
                         List<ShopEntity> shopResponse = parseResponse(response);
 
                         if(listener != null){
