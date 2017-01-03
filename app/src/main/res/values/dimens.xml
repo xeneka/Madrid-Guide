@@ -4,4 +4,5 @@
     <dimen name="activity_vertical_margin">0dp</dimen>
     <dimen name="activity_main_shops_button_width">128dp</dimen>
     <dimen name="activity_space_detail">10dp</dimen>
+    <dimen name="activity_shop_detail_map_heigh">120dp</dimen>
 </resources>

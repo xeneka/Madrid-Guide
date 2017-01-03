@@ -34,7 +34,7 @@
    <fragment android:id="@+id/map"
               android:name="com.google.android.gms.maps.MapFragment"
               android:layout_width="match_parent"
-              android:layout_height="120dp"
+              android:layout_height="@dimen/activity_shop_detail_map_heigh"
               android:layout_weight="2"
               android:layout_alignParentBottom="true" android:layout_alignParentLeft="true"
               android:layout_alignParentStart="true" android:layout_marginBottom="41dp"
