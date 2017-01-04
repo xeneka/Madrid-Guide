@@ -31,7 +31,7 @@
 
     />
 
-   <fragment android:id="@+id/map"
+   <fragment android:id="@+id/mapdetail"
               android:name="com.google.android.gms.maps.MapFragment"
               android:layout_width="match_parent"
               android:layout_height="@dimen/activity_shop_detail_map_heigh"
