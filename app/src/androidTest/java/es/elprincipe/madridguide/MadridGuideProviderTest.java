@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.test.AndroidTestCase;
 
-import es.elprincipe.madridguide.manager.db.DBConstants;
+import es.elprincipe.madridguide.manager.db.DBShopConstants;
 import es.elprincipe.madridguide.manager.db.ShopDAO;
 import es.elprincipe.madridguide.manager.db.provider.MadridGuideProvider;
 import es.elprincipe.madridguide.model.Shop;
@@ -14,10 +14,10 @@ import es.elprincipe.madridguide.model.Shop;
 public class MadridGuideProviderTest extends AndroidTestCase {
 
 
-    public void testQueryAllShps(){
+    public void testQueryAllShops(){
         ContentResolver cr =getContext().getContentResolver();
 
-        Cursor c = cr.query(MadridGuideProvider.SHOPS_URI, DBConstants.ALLCOLUMNS,null,null,null);
+        Cursor c = cr.query(MadridGuideProvider.SHOPS_URI, DBShopConstants.ALLCOLUMNS,null,null,null);
         assertNotNull(c);
     }
 
@@ -25,14 +25,14 @@ public class MadridGuideProviderTest extends AndroidTestCase {
 
         final ContentResolver cr = getContext().getContentResolver();
 
-        final Cursor beforeCursor = cr.query(MadridGuideProvider.SHOPS_URI,DBConstants.ALLCOLUMNS,null,null,null);
+        final Cursor beforeCursor = cr.query(MadridGuideProvider.SHOPS_URI,DBShopConstants.ALLCOLUMNS,null,null,null);
         final int beforeCount = beforeCursor.getCount();
 
         Shop shop = new Shop(1,"Little shop of horrors");
         Uri insertedUri = cr.insert(MadridGuideProvider.SHOPS_URI, ShopDAO.getContentValues(shop));
         assertNotNull(insertedUri);
 
-        final Cursor afterCursor = cr.query(MadridGuideProvider.SHOPS_URI,DBConstants.ALLCOLUMNS,null,null,null);
+        final Cursor afterCursor = cr.query(MadridGuideProvider.SHOPS_URI,DBShopConstants.ALLCOLUMNS,null,null,null);
         final int afterCount = afterCursor.getCount();
 
         assertEquals(beforeCount+1, afterCount);

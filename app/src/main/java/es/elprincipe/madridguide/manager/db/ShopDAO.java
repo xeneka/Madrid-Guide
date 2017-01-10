@@ -16,16 +16,16 @@ import es.elprincipe.madridguide.model.Shop;
 import es.elprincipe.madridguide.model.Shops;
 
 import static android.R.attr.id;
-import static es.elprincipe.madridguide.manager.db.DBConstants.KEY_SHOP_ADDRESS;
-import static es.elprincipe.madridguide.manager.db.DBConstants.KEY_SHOP_DESCRIPTION;
-import static es.elprincipe.madridguide.manager.db.DBConstants.KEY_SHOP_ID;
-import static es.elprincipe.madridguide.manager.db.DBConstants.KEY_SHOP_IMAGE_URL;
-import static es.elprincipe.madridguide.manager.db.DBConstants.KEY_SHOP_LATITUDE;
-import static es.elprincipe.madridguide.manager.db.DBConstants.KEY_SHOP_LOGO_IMAGE_URL;
-import static es.elprincipe.madridguide.manager.db.DBConstants.KEY_SHOP_LONGITUDE;
-import static es.elprincipe.madridguide.manager.db.DBConstants.KEY_SHOP_NAME;
-import static es.elprincipe.madridguide.manager.db.DBConstants.KEY_SHOP_URL;
-import static es.elprincipe.madridguide.manager.db.DBConstants.TABLE_SHOP;
+import static es.elprincipe.madridguide.manager.db.DBShopConstants.KEY_SHOP_ADDRESS;
+import static es.elprincipe.madridguide.manager.db.DBShopConstants.KEY_SHOP_DESCRIPTION;
+import static es.elprincipe.madridguide.manager.db.DBShopConstants.KEY_SHOP_ID;
+import static es.elprincipe.madridguide.manager.db.DBShopConstants.KEY_SHOP_IMAGE_URL;
+import static es.elprincipe.madridguide.manager.db.DBShopConstants.KEY_SHOP_LATITUDE;
+import static es.elprincipe.madridguide.manager.db.DBShopConstants.KEY_SHOP_LOGO_IMAGE_URL;
+import static es.elprincipe.madridguide.manager.db.DBShopConstants.KEY_SHOP_LONGITUDE;
+import static es.elprincipe.madridguide.manager.db.DBShopConstants.KEY_SHOP_NAME;
+import static es.elprincipe.madridguide.manager.db.DBShopConstants.KEY_SHOP_URL;
+import static es.elprincipe.madridguide.manager.db.DBShopConstants.TABLE_SHOP;
 
 public class ShopDAO implements DAOPersistable<Shop> {
 
@@ -68,7 +68,7 @@ public class ShopDAO implements DAOPersistable<Shop> {
         db.beginTransaction();
         long id = DBHelper.INVALID_ID;
         try {
-            id = dbHelper.getWritableDatabase().insert(DBConstants.TABLE_SHOP, null, this.getContentValues(shop));
+            id = dbHelper.getWritableDatabase().insert(TABLE_SHOP, null, this.getContentValues(shop));
             shop.setId(id);
             db.setTransactionSuccessful();
         } finally {

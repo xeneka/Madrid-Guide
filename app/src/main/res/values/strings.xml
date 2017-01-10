@@ -5,5 +5,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="shops_url">http://madrid-shops.com/json/getShops.php</string>
+    <string name="activity_url">http://madrid-shops.com/json/getActivities.php</string>
     <string name="how_to_arrive">HOW TO ARRIVE</string>
 </resources>

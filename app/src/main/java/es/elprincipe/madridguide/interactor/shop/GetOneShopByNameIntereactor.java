@@ -1,4 +1,4 @@
-package es.elprincipe.madridguide.interactor;
+package es.elprincipe.madridguide.interactor.shop;
 
 
 import android.content.Context;

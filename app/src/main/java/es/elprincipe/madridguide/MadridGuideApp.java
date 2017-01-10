@@ -7,11 +7,14 @@ import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
 
-import es.elprincipe.madridguide.interactor.CacheAllShopInteractor;
-import es.elprincipe.madridguide.interactor.GetAllShopsInteractor;
+import es.elprincipe.madridguide.interactor.activity.CacheAllActivityInteractor;
+import es.elprincipe.madridguide.interactor.activity.GetAllActivitiesInteractor;
+import es.elprincipe.madridguide.interactor.shop.CacheAllShopInteractor;
+import es.elprincipe.madridguide.interactor.shop.GetAllShopsInteractor;
 import es.elprincipe.madridguide.manager.db.ShopDAO;
 import es.elprincipe.madridguide.model.Shop;
 import es.elprincipe.madridguide.model.Shops;
+import es.elprincipe.madridguide.model.activity.Activities;
 
 /**
  * Created by Antonio on 12/12/16.
@@ -33,6 +36,7 @@ public class MadridGuideApp extends Application {
 
         Picasso.with(getApplicationContext()).setLoggingEnabled(true);
         Picasso.with(getApplicationContext()).setIndicatorsEnabled(true);
+        
 
         new GetAllShopsInteractor().execute(getApplicationContext(), new GetAllShopsInteractor.GetAllShopsInteractorResponse() {
             @Override
@@ -41,6 +45,19 @@ public class MadridGuideApp extends Application {
                 new CacheAllShopInteractor().execute(getApplicationContext(), shops , new CacheAllShopInteractor.CacheAllShopsInteractorResponse(){
                     @Override
                     public void response(boolean success){
+
+                    }
+                });
+            }
+        });
+
+        new GetAllActivitiesInteractor().execute(getApplicationContext(), new GetAllActivitiesInteractor.GetAllActivitiesInteractorResponse() {
+            @Override
+            public void response(Activities activities) {
+
+                new CacheAllActivityInteractor().execute(getAppContext(), activities, new CacheAllActivityInteractor.CacheAllActivityInteractorResponse() {
+                    @Override
+                    public void response(boolean success) {
 
                     }
                 });

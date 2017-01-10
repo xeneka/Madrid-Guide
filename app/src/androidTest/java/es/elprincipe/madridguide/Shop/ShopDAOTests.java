@@ -1,4 +1,4 @@
-package es.elprincipe.madridguide;
+package es.elprincipe.madridguide.shop;
 
 import android.database.Cursor;
 import android.test.AndroidTestCase;

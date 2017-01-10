@@ -7,6 +7,9 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,9 +23,9 @@ import java.util.List;
 
 import es.elprincipe.madridguide.R;
 import es.elprincipe.madridguide.fragments.ShopsFragment;
-import es.elprincipe.madridguide.interactor.GetAllShopsFromLocalCacheInteractor;
-import es.elprincipe.madridguide.interactor.GetOneShopByNameIntereactor;
-import es.elprincipe.madridguide.manager.db.DBConstants;
+import es.elprincipe.madridguide.interactor.shop.GetAllShopsFromLocalCacheInteractor;
+import es.elprincipe.madridguide.interactor.shop.GetOneShopByNameIntereactor;
+import es.elprincipe.madridguide.manager.db.DBShopConstants;
 import es.elprincipe.madridguide.manager.db.ShopDAO;
 import es.elprincipe.madridguide.manager.db.provider.MadridGuideProvider;
 import es.elprincipe.madridguide.model.Shop;
@@ -30,10 +33,8 @@ import es.elprincipe.madridguide.model.Shops;
 import es.elprincipe.madridguide.navigator.Navigator;
 import es.elprincipe.madridguide.view.OnElementClick;
 
-import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_HYBRID;
 
-
-public class ShopsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
+public class ShopsActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>, GoogleMap.OnMarkerClickListener, OnMapReadyCallback, GoogleMap.InfoWindowAdapter {
 
 
     private ShopsFragment shopsFragment;
@@ -46,20 +47,19 @@ public class ShopsActivity extends AppCompatActivity implements LoaderManager.Lo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shops);
 
-
         shopsFragment = (ShopsFragment) getSupportFragmentManager().findFragmentById(R.id.activity_shops_fragment_shops);
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        //SupportMapFragment mapFragment =  (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-
-        //mapFragment.getMapAsync(this);
+        loadShopFromCache();
 
 
+        //LoaderManager loaderManager = getSupportLoaderManager();
+        //loaderManager.initLoader(0,null,this);
 
+    }
 
-
-
+    private void loadShopFromCache() {
         GetAllShopsFromLocalCacheInteractor interactor = new GetAllShopsFromLocalCacheInteractor();
         interactor.execute(this, new GetAllShopsFromLocalCacheInteractor.OnGetAllShopsFromLocalCacheInteractorCompletion() {
             @Override
@@ -75,20 +75,17 @@ public class ShopsActivity extends AppCompatActivity implements LoaderManager.Lo
                 putMarkerInMap(shops);
             }
         });
-
-
-        //LoaderManager loaderManager = getSupportLoaderManager();
-        //loaderManager.initLoader(0,null,this);
-
-
     }
 
     private void configMap() {
         //googleMap.setMyLocationEnabled(true);
-        googleMap.setMapType(MAP_TYPE_HYBRID);
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         LatLng latLng = new LatLng(40.4168,-3.7038);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,13.0f));
-        googleMap.setOnMarkerClickListener(this);
+        //googleMap.setOnMarkerClickListener(this);
+        googleMap.setInfoWindowAdapter(this);
+
+
     }
 
     public Shops getShops() {
@@ -102,7 +99,7 @@ public class ShopsActivity extends AppCompatActivity implements LoaderManager.Lo
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        CursorLoader loader = new CursorLoader(this, MadridGuideProvider.SHOPS_URI, DBConstants.ALLCOLUMNS,null,null,null);
+        CursorLoader loader = new CursorLoader(this, MadridGuideProvider.SHOPS_URI, DBShopConstants.ALLCOLUMNS,null,null,null);
         return loader;
     }
 
@@ -139,13 +136,16 @@ public class ShopsActivity extends AppCompatActivity implements LoaderManager.Lo
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        GetOneShopByNameIntereactor shopByNameIntereactor = new GetOneShopByNameIntereactor();
+       /* GetOneShopByNameIntereactor shopByNameIntereactor = new GetOneShopByNameIntereactor();
         shopByNameIntereactor.execute(this, new GetOneShopByNameIntereactor.GetOneShopByNameIntereactorCompletion() {
             @Override
             public void completion(Shop shop) {
                 Navigator.navigateFromShopsActivityToShopDetailActivity(ShopsActivity.this, shop);
             }
-        }, marker.getTitle());
+        }, marker.getTitle());*/
+
+
+
         return true;
     }
 
@@ -162,6 +162,57 @@ public class ShopsActivity extends AppCompatActivity implements LoaderManager.Lo
         //map.setBuildingsEnabled(true);
         //map.getUiSettings().setZoomControlsEnabled(true);
     }
+
+
+    @Override
+    public View getInfoWindow(Marker marker) {
+        return null;
+    }
+
+    @Override
+    public View getInfoContents(Marker marker) {
+        // Getting view from the layout file info_window_layout
+        View v = getLayoutInflater().inflate(R.layout.callout_info, null);
+        final Marker markCallout = marker;
+        // Getting the position from the marker
+        //final LatLng latLng = marker.getPosition();
+
+        // Getting reference to the TextView to set latitude
+        final TextView shopName = (TextView) v.findViewById(R.id.callout_shop_name);
+
+        // Getting reference to the TextView to set longitude
+        //TextView tvLng = (TextView) v.findViewById(R.id.tv_lng);
+
+        GetOneShopByNameIntereactor shopByNameIntereactor = new GetOneShopByNameIntereactor();
+        shopByNameIntereactor.execute(this, new GetOneShopByNameIntereactor.GetOneShopByNameIntereactorCompletion() {
+            @Override
+            public void completion(Shop shop) {
+
+                shopName.setText("HOLA");
+                markCallout.showInfoWindow();
+
+                Log.v(getClass().getName(), shop.getName());
+
+            }
+        }, marker.getTitle());
+
+        // Setting the latitude
+
+
+        // Setting the longitude
+        //tvLng.setText("Longitude:"+ latLng.longitude);
+
+        // Returning the view containing InfoWindow contents
+
+
+
+
+        return v;
+    }
+
+
+
+
 }
 
 
