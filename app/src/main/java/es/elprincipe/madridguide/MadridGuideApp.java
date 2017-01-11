@@ -12,9 +12,10 @@ import es.elprincipe.madridguide.interactor.activity.GetAllActivitiesInteractor;
 import es.elprincipe.madridguide.interactor.shop.CacheAllShopInteractor;
 import es.elprincipe.madridguide.interactor.shop.GetAllShopsInteractor;
 import es.elprincipe.madridguide.manager.db.ShopDAO;
-import es.elprincipe.madridguide.model.Shop;
 import es.elprincipe.madridguide.model.Shops;
 import es.elprincipe.madridguide.model.activity.Activities;
+import es.elprincipe.madridguide.util.InternetIsOk;
+import es.elprincipe.madridguide.util.PreferenciesApplication;
 
 /**
  * Created by Antonio on 12/12/16.
@@ -31,26 +32,26 @@ public class MadridGuideApp extends Application {
         // Cosas de inicializar apliacation
 
         appContext = new WeakReference<Context> (getApplicationContext());
+        PreferenciesApplication pf = new PreferenciesApplication();
 
-        //insertTestDataInDb();
 
         Picasso.with(getApplicationContext()).setLoggingEnabled(true);
         Picasso.with(getApplicationContext()).setIndicatorsEnabled(true);
-        
 
-        new GetAllShopsInteractor().execute(getApplicationContext(), new GetAllShopsInteractor.GetAllShopsInteractorResponse() {
-            @Override
-            public void response(Shops shops) {
+        if (pf.updateNow(this) && InternetIsOk.ConnectionIsOk(this)) {
 
-                new CacheAllShopInteractor().execute(getApplicationContext(), shops , new CacheAllShopInteractor.CacheAllShopsInteractorResponse(){
-                    @Override
-                    public void response(boolean success){
+                clearDataBase();
+                updateShops();
+                updateAcitivities();
+        }
+    }
 
-                    }
-                });
-            }
-        });
+    private void clearDataBase() {
+        ShopDAO dao = new ShopDAO(getApplicationContext());
+        dao.deleteAll();
+    }
 
+    private void updateAcitivities() {
         new GetAllActivitiesInteractor().execute(getApplicationContext(), new GetAllActivitiesInteractor.GetAllActivitiesInteractorResponse() {
             @Override
             public void response(Activities activities) {
@@ -63,18 +64,24 @@ public class MadridGuideApp extends Application {
                 });
             }
         });
-
     }
 
-    private void insertTestDataInDb() {
-        ShopDAO dao = new ShopDAO(getApplicationContext());
+    private void updateShops() {
+        new GetAllShopsInteractor().execute(getApplicationContext(), new GetAllShopsInteractor.GetAllShopsInteractorResponse() {
+            @Override
+            public void response(Shops shops) {
 
-        dao.deleteAll();
-        for (int i = 0; i < 20; i++) {
-            Shop shop = new Shop(10,"Shop "+i).setLogoImgUrl("http://www.chartsinfrance.net/covers/aHR0cHM6Ly9pLnNjZG4uY28vaW1hZ2UvZWQwNDJkYjgwNWU0NjE0N2NmOTIyZjIxZmVlZjk1Y2FlZWQ0MTIzNA==.jpg");
-            //dao.insert(shop);
-        }
+                new CacheAllShopInteractor().execute(getApplicationContext(), shops , new CacheAllShopInteractor.CacheAllShopsInteractorResponse(){
+                    @Override
+                    public void response(boolean success){
+
+                    }
+                });
+            }
+        });
     }
+
+
 
 
 

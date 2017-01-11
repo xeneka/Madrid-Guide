@@ -7,7 +7,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -24,7 +23,6 @@ import java.util.List;
 import es.elprincipe.madridguide.R;
 import es.elprincipe.madridguide.fragments.ShopsFragment;
 import es.elprincipe.madridguide.interactor.shop.GetAllShopsFromLocalCacheInteractor;
-import es.elprincipe.madridguide.interactor.shop.GetOneShopByNameIntereactor;
 import es.elprincipe.madridguide.manager.db.DBShopConstants;
 import es.elprincipe.madridguide.manager.db.ShopDAO;
 import es.elprincipe.madridguide.manager.db.provider.MadridGuideProvider;
@@ -183,18 +181,7 @@ public class ShopsActivity extends AppCompatActivity implements LoaderManager.Lo
         // Getting reference to the TextView to set longitude
         //TextView tvLng = (TextView) v.findViewById(R.id.tv_lng);
 
-        GetOneShopByNameIntereactor shopByNameIntereactor = new GetOneShopByNameIntereactor();
-        shopByNameIntereactor.execute(this, new GetOneShopByNameIntereactor.GetOneShopByNameIntereactorCompletion() {
-            @Override
-            public void completion(Shop shop) {
 
-                shopName.setText("HOLA");
-                markCallout.showInfoWindow();
-
-                Log.v(getClass().getName(), shop.getName());
-
-            }
-        }, marker.getTitle());
 
         // Setting the latitude
 
