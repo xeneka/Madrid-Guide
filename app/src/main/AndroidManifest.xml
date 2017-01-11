@@ -54,6 +54,7 @@
         </activity>
         <activity android:name=".activities.ActivitiesActivity"
             android:parentActivityName=".activities.MainActivity"/>
+        <activity android:name=".activities.ActivityDetail" android:parentActivityName=".activities.ActivitiesActivity"/>
 
         <!-- Google Maps API Key -->
         <meta-data android:name = "com.google.android.maps.v2.API_KEY"
