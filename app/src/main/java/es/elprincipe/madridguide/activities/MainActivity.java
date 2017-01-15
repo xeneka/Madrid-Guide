@@ -1,17 +1,37 @@
 package es.elprincipe.madridguide.activities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 
+import java.lang.ref.WeakReference;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import es.elprincipe.madridguide.R;
+import es.elprincipe.madridguide.interactor.activity.CacheAllActivityInteractor;
+import es.elprincipe.madridguide.interactor.activity.GetAllActivitiesInteractor;
+import es.elprincipe.madridguide.interactor.shop.CacheAllShopInteractor;
+import es.elprincipe.madridguide.interactor.shop.GetAllShopsInteractor;
+import es.elprincipe.madridguide.manager.db.ActivityDAO;
+import es.elprincipe.madridguide.manager.db.ShopDAO;
+import es.elprincipe.madridguide.manager.image.DeleteImageFromInternalStorage;
+import es.elprincipe.madridguide.manager.image.DownloadImage;
+import es.elprincipe.madridguide.manager.image.ImageData;
+import es.elprincipe.madridguide.manager.image.ImageDataList;
+import es.elprincipe.madridguide.model.Shops;
+import es.elprincipe.madridguide.model.activity.Activities;
+import es.elprincipe.madridguide.model.activity.Activity;
 import es.elprincipe.madridguide.navigator.Navigator;
+import es.elprincipe.madridguide.util.InternetIsOk;
+import es.elprincipe.madridguide.util.PreferenciesApplication;
+import es.elprincipe.madridguide.util.UrlFileName;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private static WeakReference<Context> appContext;
 
     @BindView(R.id.activity_main_shops_button)
     ImageButton shopsButton;
@@ -27,6 +47,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setupShopsButton();
 
+        appContext = new WeakReference<Context>(getApplicationContext());
+        PreferenciesApplication pf = new PreferenciesApplication();
+        if (pf.updateNow(this) && InternetIsOk.ConnectionIsOk(this)) {
+            clearImageFiles();
+            clearDataBaseShop();
+            clearDataBaseActivities();
+
+            updateShops();
+            updateAcitivities();
+        } else{
+            shopsButton.setEnabled(true);
+            activityButton.setEnabled(true);
+        }
+
 
     }
 
@@ -34,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         shopsButton.setOnClickListener(this);
         activityButton.setOnClickListener(this);
+        shopsButton.setEnabled(false);
+        activityButton.setEnabled(false);
 
     }
 
@@ -51,4 +87,90 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+
+    private void clearDataBaseShop() {
+        ShopDAO dao = new ShopDAO(getApplicationContext());
+        dao.deleteAll();
+    }
+
+    private void clearDataBaseActivities(){
+        ActivityDAO dao = new ActivityDAO(getApplicationContext());
+        dao.deleteAll();
+    }
+
+    private void clearImageFiles(){
+
+        DeleteImageFromInternalStorage borrar = new DeleteImageFromInternalStorage(getApplicationContext(), new DeleteImageFromInternalStorage.DeleteImageFromInternalStorageResponse() {
+            @Override
+            public void completion(boolean success) {
+
+            }
+        });
+
+    }
+
+    private void downloadImagesActivities(ImageDataList urlImage){
+
+
+        DownloadImage images = new DownloadImage(urlImage,this, new DownloadImage.DownloadImageResponse() {
+            @Override
+            public void response(boolean success) {
+
+            }
+        });
+    }
+
+    private void updateAcitivities() {
+        new GetAllActivitiesInteractor().execute(getApplicationContext(), new GetAllActivitiesInteractor.GetAllActivitiesInteractorResponse() {
+            @Override
+            public void response(final Activities activities) {
+
+                new CacheAllActivityInteractor().execute(getAppContext(), activities, new CacheAllActivityInteractor.CacheAllActivityInteractorResponse() {
+                    @Override
+                    public void response(boolean success) {
+
+                        // Descargo todas las images de las actividades incluidos mapas
+
+
+                        ImageDataList imageList = ImageDataList.build();
+                        for(Activity activity: activities.allActivities()){
+
+                            ImageData image = new ImageData(activity.getImageUrl(),new UrlFileName(activity.getImageUrl()).fileName() );
+                            imageList.add(image);
+                            String urlImageMap = "http://maps.googleapis.com/maps/api/staticmap?center="+String.valueOf(activity.getLatitude())+","+String.valueOf(activity.getLongitude())+"&zoom=17&size=320x220&scale=2&markers=%7Ccolor:0x9C7B14%7C40.452048,-3.686463&key=AIzaSyBa4vb5F5DiIvNAfJ6p2OVy46KRe1pNjxk";
+                            ImageData imageMap = new ImageData(urlImageMap,"mapa-"+activity.getName().trim()+".jpg");
+                            imageList.add(imageMap);
+                        }
+                        downloadImagesActivities(imageList);
+                        activityButton.setEnabled(true);
+
+
+
+                    }
+                });
+            }
+        });
+    }
+
+    private void updateShops() {
+        new GetAllShopsInteractor().execute(getApplicationContext(), new GetAllShopsInteractor.GetAllShopsInteractorResponse() {
+            @Override
+            public void response(Shops shops) {
+
+                new CacheAllShopInteractor().execute(getApplicationContext(), shops , new CacheAllShopInteractor.CacheAllShopsInteractorResponse(){
+                    @Override
+                    public void response(boolean success){
+                        shopsButton.setEnabled(true);
+                    }
+                });
+            }
+        });
+    }
+
+    public static Context getAppContext(){
+        return appContext.get();
+    }
+
+
 }

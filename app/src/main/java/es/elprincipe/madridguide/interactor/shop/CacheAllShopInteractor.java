@@ -2,11 +2,11 @@ package es.elprincipe.madridguide.interactor.shop;
 
 
 import android.content.Context;
-import android.os.Looper;
 
 import es.elprincipe.madridguide.manager.db.ShopDAO;
 import es.elprincipe.madridguide.model.Shop;
 import es.elprincipe.madridguide.model.Shops;
+import es.elprincipe.madridguide.util.MainThreadUtil;
 
 public class CacheAllShopInteractor {
 
@@ -31,11 +31,14 @@ public class CacheAllShopInteractor {
                             }
                         }
 
-                        Looper main = Looper.getMainLooper();
-
-                        if (response!=null){
-                            response.response(success);
-                        }
+                        MainThreadUtil.run(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(response != null){
+                                    response.response(true);
+                                }
+                            }
+                        });
 
                     }
                 }).start();

@@ -79,6 +79,8 @@ public class DownloadImage {
             completion.response(true);
         }
         if (listImages.isEmpty()){
+
+
             completion.response(true);
         }
 
