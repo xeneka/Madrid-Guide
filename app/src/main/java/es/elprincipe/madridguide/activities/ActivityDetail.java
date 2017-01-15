@@ -31,6 +31,7 @@ public class ActivityDetail extends AppCompatActivity {
     TextView toolbarTitle;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,13 +68,6 @@ public class ActivityDetail extends AppCompatActivity {
         }
     }
 
-    private void updateUI(){
 
-
-
-        //Picasso.load(shop.getLogoImgUrl()).into(shop.getLogoImgUrl());
-
-        //Picasso.with(this).load(shop.getLogoImgUrl()).into(logo);
-    }
 
 }

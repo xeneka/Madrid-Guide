@@ -7,4 +7,6 @@
     <string name="shops_url">http://madrid-shops.com/json/getShops.php</string>
     <string name="activity_url">http://madrid-shops.com/json/getActivities.php</string>
     <string name="how_to_arrive">HOW TO ARRIVE</string>
+    <string name="search_title">search_title</string>
+    <string name="search_activities">Busqueda en las actividades</string>
 </resources>

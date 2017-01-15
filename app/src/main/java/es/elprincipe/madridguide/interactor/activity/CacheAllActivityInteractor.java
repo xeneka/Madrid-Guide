@@ -2,17 +2,15 @@ package es.elprincipe.madridguide.interactor.activity;
 
 
 import android.content.Context;
-import android.util.Log;
 
 import es.elprincipe.madridguide.manager.db.ActivityDAO;
+import es.elprincipe.madridguide.manager.db.DescriptionDao;
 import es.elprincipe.madridguide.model.activity.Activities;
 import es.elprincipe.madridguide.model.activity.Activity;
+import es.elprincipe.madridguide.model.activity.Description;
 import es.elprincipe.madridguide.util.MainThreadUtil;
 
 public class CacheAllActivityInteractor {
-
-
-
 
 
     public interface CacheAllActivityInteractorResponse{
@@ -27,10 +25,15 @@ public class CacheAllActivityInteractor {
             public void run() {
 
                 ActivityDAO activityDAO = new ActivityDAO(context);
+                DescriptionDao descriptionDao = new DescriptionDao(context);
                 for(Activity activity:activities.allActivities()){
-                    Log.v(getClass().getName(), activity.getName());
+
                     if(activityDAO.insert(activity) == 0){
                         break;
+                    }
+
+                    for (Description description:activity.getDescriptions()){
+                        descriptionDao.insert(description);
                     }
 
                 }

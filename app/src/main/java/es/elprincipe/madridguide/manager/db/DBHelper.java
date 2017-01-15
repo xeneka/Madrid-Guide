@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_FILE_NAME = "madridguidev.sqlite";
+    public static final String DATABASE_FILE_NAME = "madridguide3.sqlite";
     public static final int DATABASE_VERSION = 1;
     public static final long INVALID_ID = -1;
 

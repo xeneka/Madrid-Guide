@@ -48,7 +48,7 @@ public class DescriptionDao implements DAOPersistable<Description> {
             return contentValues;
         }
 
-        contentValues.put(KEY_DESCRIPTION_ID_ACTIVITY, description.getIdActitivy());
+        contentValues.put(KEY_DESCRIPTION_ID_ACTIVITY, description.getActivityName());
         contentValues.put(KEY_DESCRIPTION_LANGUAGE, description.getLanguage());
         contentValues.put(KEY_DESCRIPTION_DESCRIPTION, description.getDescription());
 
@@ -109,6 +109,19 @@ public class DescriptionDao implements DAOPersistable<Description> {
         return c;
     }
 
+
+    public Cursor queryCursor(String activityName, String language) {
+
+        String where = KEY_DESCRIPTION_ID_ACTIVITY + "= '" + activityName + "' and " + KEY_DESCRIPTION_LANGUAGE + " = '" + language +"'";
+        Cursor c = db.query(TABLE_DESCRIPTION, ALLCOLUMNS, where, null,null, null, KEY_DESCRIPTION_ID);
+
+        if (c!=null && c.getCount() >0){
+            c.moveToFirst();
+        }
+
+        return c;
+    }
+
     @Override
     public Description query(long id) {
 
@@ -116,12 +129,20 @@ public class DescriptionDao implements DAOPersistable<Description> {
     }
 
     @Nullable
-    @Override
-    public List<Description> query() {
 
-        Cursor c = queryCursor();
+    public List<Description> query(String activityName, String language) {
 
-        // left golden path
+        Cursor c;
+
+        if (activityName == null){
+            c = queryCursor();
+        }else{
+            c = queryCursor(activityName, language);
+        }
+
+
+
+
 
         if (c== null || !c.moveToFirst()) {
 
@@ -142,12 +163,16 @@ public class DescriptionDao implements DAOPersistable<Description> {
         return descriptions;
     }
 
+    public List<Description> query(){
+        return query(null, null);
+    }
+
 
     @NonNull
     public static Description getDescription(Cursor c) {
         long identifier = c.getLong(c.getColumnIndex(KEY_DESCRIPTION_ID));
         String description_text = c.getString(c.getColumnIndex(KEY_DESCRIPTION_DESCRIPTION));
-        long identifier_activity = c.getLong(c.getColumnIndex(KEY_DESCRIPTION_ID));
+        String identifier_activity = c.getString(c.getColumnIndex(KEY_DESCRIPTION_ID));
         String language = c.getString(c.getColumnIndex(KEY_DESCRIPTION_LANGUAGE));
 
         Description description = new Description(identifier, language,description_text,identifier_activity);

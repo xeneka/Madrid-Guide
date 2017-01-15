@@ -122,11 +122,25 @@ public class ActivityDAO implements DAOPersistable<Activity> {
         return c;
     }
 
+    public Cursor queryCursor(String activityName) {
+
+        String where = KEY_ACTIVITY_NAME + " like '%" + activityName +"%'";
+        Cursor c = db.query(TABLE_ACTIVITY, ALLCOLUMNS, where, null,null, null, KEY_ACTIVITY_ID);
+
+        if (c!=null && c.getCount() >0){
+            c.moveToFirst();
+        }
+
+        return c;
+    }
+
     @Override
     public Activity query(long id) {
 
         Cursor c = db.query(TABLE_ACTIVITY, ALLCOLUMNS, KEY_ACTIVITY_ID + " = " + id, null, null, null, KEY_ACTIVITY_ID); if (c != null && c.getCount() == 1) { c.moveToFirst(); } else { return null; } Activity activity = getActivity(c); return activity;
     }
+    
+  
 
     @NonNull
     public static Activity getActivity(Cursor c) {
@@ -153,10 +167,18 @@ public class ActivityDAO implements DAOPersistable<Activity> {
 
 
     @Nullable
-    @Override
-    public List<Activity> query() {
 
-        Cursor c = queryCursor();
+    public List<Activity> query(String nameActivity) {
+
+        Cursor c;
+        
+        if (nameActivity == null){
+            c = queryCursor();  
+        } else{
+            c = queryCursor(nameActivity);
+        }
+        
+        
 
         // left golden path
 
@@ -178,6 +200,14 @@ public class ActivityDAO implements DAOPersistable<Activity> {
 
         return activities;
     }
+
+
+
+
+    public List<Activity> query(){
+        return query(null);
+    }
+    
 
     public Cursor queryCursor(long id) {
 

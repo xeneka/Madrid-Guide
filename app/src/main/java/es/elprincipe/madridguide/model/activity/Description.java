@@ -5,14 +5,14 @@ public class Description {
 
     private String language;
     private String description;
-    private long idActitivy;
+    private String activityName;
     private long id;
 
 
-    public Description(long id,String language, String description, long idActitivy) {
+    public Description(long id,String language, String description, String activityName) {
         this.language = language;
         this.description = description;
-        this.idActitivy = idActitivy;
+        this.activityName = activityName;
         this.id = id;
     }
 
@@ -24,8 +24,8 @@ public class Description {
         return description;
     }
 
-    public long getIdActitivy() {
-        return idActitivy;
+    public String getActivityName() {
+        return activityName;
     }
 
     public long getId() {
@@ -43,8 +43,8 @@ public class Description {
     }
 
 
-    public Description setIdActitivy(long idActitivy) {
-        this.idActitivy = idActitivy;
+    public Description setActivityName(String activityName) {
+        this.activityName = activityName;
         return this;
     }
 

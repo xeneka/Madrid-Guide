@@ -34,7 +34,8 @@
         android:layout_width="@dimen/activity_main_shops_button_width"
         android:layout_height="@dimen/activity_main_shops_button_width"
 
-        android:src="@drawable/shoppingbag"
+
+        android:src="@drawable/activities"
         android:background="@color/common_google_signin_btn_text_dark_default"/>
     </LinearLayout>
 

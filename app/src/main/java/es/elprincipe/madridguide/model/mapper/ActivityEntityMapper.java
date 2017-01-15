@@ -6,6 +6,7 @@ import java.util.List;
 
 import es.elprincipe.madridguide.manager.net.ActivityEntity;
 import es.elprincipe.madridguide.model.activity.Activity;
+import es.elprincipe.madridguide.model.activity.Description;
 
 public class ActivityEntityMapper {
 
@@ -24,6 +25,14 @@ public class ActivityEntityMapper {
             activity.setLogoImgUrl(entity.getLogimg());
             activity.setLatitude(entity.getGps_lat());
             activity.setLongitude(entity.getGps_lon());
+
+            List<Description> description = new LinkedList<>();
+            Description esDescripton = new Description(1,"es",entity.getDescription_es(),activity.getName() );
+            Description enDescripton = new Description(1,"en",entity.getDescription_en(),activity.getName() );
+            description.add(esDescripton);
+            description.add(enDescripton);
+            activity.setDescriptions(description);
+
             result.add(activity);
 
         }

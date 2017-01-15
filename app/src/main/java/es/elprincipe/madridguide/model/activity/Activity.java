@@ -3,6 +3,7 @@ package es.elprincipe.madridguide.model.activity;
 
 import java.io.Serializable;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Activity implements Serializable {
 
@@ -10,7 +11,7 @@ public class Activity implements Serializable {
     private String name;
     private String imageUrl;
     private String logoImgUrl;
-    private LinkedList<Description> descriptions;
+    private List<Description> descriptions;
     private String url;
     private String telephone;
     private String email;
@@ -68,11 +69,11 @@ public class Activity implements Serializable {
         return this;
     }
 
-    public LinkedList<Description> getDescriptions() {
+    public List<Description> getDescriptions() {
         return descriptions;
     }
 
-    public Activity setDescriptions(LinkedList<Description> descriptions) {
+    public Activity setDescriptions(List<Description> descriptions) {
         this.descriptions = descriptions;
         return this;
     }

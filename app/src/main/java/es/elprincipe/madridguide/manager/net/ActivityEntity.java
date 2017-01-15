@@ -14,7 +14,7 @@ public class ActivityEntity {
     @SerializedName("url") private String url;
     @SerializedName("address") private String address;
     @SerializedName("description_en") private String description_en;
-    @SerializedName("description_es") private String description_ens;
+    @SerializedName("description_es") private String description_es;
     @SerializedName("gps_lat") private Float gps_lat;
     @SerializedName("gps_lon") private Float gps_lon;
     @SerializedName("special_offer") private String special_offer;
@@ -59,8 +59,8 @@ public class ActivityEntity {
         return description_en;
     }
 
-    public String getDescription_ens() {
-        return description_ens;
+    public String getDescription_es() {
+        return description_es;
     }
 
     public Float getGps_lat() {
