@@ -4,6 +4,10 @@
               android:layout_width="wrap_content"
               android:layout_height="wrap_content">
 
+    <ImageView android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+                android:id="@+id/logoActivity"
+    />
     <TextView
         android:id="@+id/callout_shop_name"
         android:layout_width="wrap_content"

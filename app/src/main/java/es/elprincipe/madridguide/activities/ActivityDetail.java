@@ -21,9 +21,6 @@ public class ActivityDetail extends AppCompatActivity {
     private ActivityDetailFragment activityDetailFragment;
 
 
-    /*@BindView(R.id.shop_detail_image)
-    ImageView logo;*/
-
     @BindView(R.id.toolbar_activity_detail)
     Toolbar toolbar;
 
@@ -37,10 +34,7 @@ public class ActivityDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_detail);
 
-
-
         activityDetailFragment = (ActivityDetailFragment) getSupportFragmentManager().findFragmentById(R.id.activity_activities_detail_fragment);
-
 
         ButterKnife.bind(this);
 
@@ -50,7 +44,6 @@ public class ActivityDetail extends AppCompatActivity {
         getDetailShopFromCallingIntent();
 
 
-        //updateUI();
     }
 
     private void getDetailShopFromCallingIntent() {

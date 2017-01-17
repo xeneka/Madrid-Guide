@@ -67,5 +67,10 @@ public class Activities implements IActivitiesIterable,IActivitiesUpdatable {
     public void edit(Activity newActivity, long index) {
         activities.set((int) index , newActivity);
 
+
     }
+    public long indexOf(Activity activity){
+        return  activities.indexOf(activity);
+    }
+
 }
