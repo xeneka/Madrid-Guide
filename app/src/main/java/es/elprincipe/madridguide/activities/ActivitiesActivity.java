@@ -29,13 +29,13 @@ import es.elprincipe.madridguide.fragments.ActivitiesFragment;
 import es.elprincipe.madridguide.interactor.activity.GetActivitiesByNameInteractor;
 import es.elprincipe.madridguide.interactor.activity.GetAllActivitiesFromLocalCacheInteractor;
 import es.elprincipe.madridguide.manager.db.ActivityDAO;
-import es.elprincipe.madridguide.manager.map.MapInfoWindowAdapter;
+import es.elprincipe.madridguide.adapter.MapInfoWindowAdapter;
 import es.elprincipe.madridguide.model.activity.Activities;
 import es.elprincipe.madridguide.model.activity.Activity;
 import es.elprincipe.madridguide.navigator.Navigator;
 import es.elprincipe.madridguide.view.OnElementClick;
 
-public class ActivitiesActivity extends AppCompatActivity implements  GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
+public class ActivitiesActivity extends AppCompatActivity implements  OnMapReadyCallback {
 
 
     @BindView(R.id.toolbar_activity_activities)
@@ -141,8 +141,7 @@ public class ActivitiesActivity extends AppCompatActivity implements  GoogleMap.
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         LatLng latLng = new LatLng(40.4168,-3.7038);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,13.0f));
-        //googleMap.setOnMarkerClickListener(this);
-        //googleMap.setInfoWindowAdapter(this);
+
 
 
 
@@ -172,18 +171,12 @@ public class ActivitiesActivity extends AppCompatActivity implements  GoogleMap.
             }
         }
 
-        googleMap.setInfoWindowAdapter(new MapInfoWindowAdapter(this,markerSet,activities));
+        googleMap.setInfoWindowAdapter(new MapInfoWindowAdapter(this,markerSet,activities,googleMap));
     }
 
 
-   
 
-    @Override
-    public boolean onMarkerClick(Marker marker) {
 
-        Log.v("**", "click");
-        return false;
-    }
 
     @Override
     public void onMapReady(GoogleMap map) {
