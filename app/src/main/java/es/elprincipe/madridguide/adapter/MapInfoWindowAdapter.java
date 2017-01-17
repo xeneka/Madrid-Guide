@@ -98,7 +98,7 @@ public class MapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter, Google
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        
+
         Navigator.navigateFromActivitiesActivityToActivityDetail((ActivitiesActivity) context, getActivityWithMarker(marker));
 
     }
