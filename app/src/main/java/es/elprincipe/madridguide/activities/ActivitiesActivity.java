@@ -61,20 +61,15 @@ public class ActivitiesActivity extends AppCompatActivity implements OnMapReadyC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activities);
 
-
-        activitiesFragment = (ActivitiesFragment) getSupportFragmentManager().findFragmentById(R.id.activity_fragment_activities);
-        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapactivities);
-        mapFragment.getMapAsync(this);
-
+        loadFragment();
         ButterKnife.bind(this);
-
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-
+        configToolbar();
         loadActivitiesFromCache();
+        toolBarListener();
 
+    }
+
+    private void toolBarListener() {
         toolbarEdit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -86,7 +81,6 @@ public class ActivitiesActivity extends AppCompatActivity implements OnMapReadyC
                     public void response(Activities activities) {
                         updateUI(activities);
                         activitiesDetail = activities;
-
                     }
                 });
 
@@ -94,18 +88,26 @@ public class ActivitiesActivity extends AppCompatActivity implements OnMapReadyC
                 return false;
             }
         });
+    }
 
+    private void configToolbar() {
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
 
+    private void loadFragment() {
+        activitiesFragment = (ActivitiesFragment) getSupportFragmentManager().findFragmentById(R.id.activity_fragment_activities);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapactivities);
+        mapFragment.getMapAsync(this);
     }
 
 
     private void loadActivitiesFromCache() {
         GetAllActivitiesFromLocalCacheInteractor interactor = new GetAllActivitiesFromLocalCacheInteractor();
-
         interactor.execute(this, new GetAllActivitiesFromLocalCacheInteractor.GetAllActivitiesFromLocalCacheInteractorResponse() {
             @Override
             public void response(final Activities activities) {
-
                 activitiesFragment.setListener(new OnElementClick<Activity>() {
                     @Override
                     public void clickedOn(Activity activity, int position) {
@@ -115,7 +117,6 @@ public class ActivitiesActivity extends AppCompatActivity implements OnMapReadyC
 
                 updateUI(activities);
                 activitiesDetail = activities;
-
 
             }
         });
@@ -137,29 +138,11 @@ public class ActivitiesActivity extends AppCompatActivity implements OnMapReadyC
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         LatLng latLng = new LatLng(40.4168,-3.7038);
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,13.0f));
-
-
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            Toast.makeText(this, R.string.permissionforlocation, Toast.LENGTH_LONG).show();
-
             showPermissionDialog();
-
             return;
         }
-
         googleMap.setMyLocationEnabled(true);
-
-
-
-
-
     }
 
     public Activities getActivities() {
@@ -182,15 +165,11 @@ public class ActivitiesActivity extends AppCompatActivity implements OnMapReadyC
                 marker.add(markeractivity);
                 markerSet.put(markeractivity.getId(), false);
 
-
             }
         }
 
         googleMap.setInfoWindowAdapter(new MapInfoWindowAdapter(this,markerSet,activities,googleMap));
     }
-
-
-
 
 
     @Override
@@ -219,7 +198,6 @@ public class ActivitiesActivity extends AppCompatActivity implements OnMapReadyC
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
             case PERMISSION_FOR_LOCATION: {
-                // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -227,15 +205,11 @@ public class ActivitiesActivity extends AppCompatActivity implements OnMapReadyC
                     }
 
                 } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+                    Toast.makeText(this, R.string.permissionforlocation, Toast.LENGTH_LONG).show();
                 }
                 return;
             }
 
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
     }
 
