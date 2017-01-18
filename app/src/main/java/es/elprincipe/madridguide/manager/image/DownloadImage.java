@@ -14,6 +14,8 @@ import java.net.URL;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import es.elprincipe.madridguide.util.MainThreadUtil;
+
 public class DownloadImage {
 
     private WeakReference<Context> context;
@@ -31,20 +33,7 @@ public class DownloadImage {
         public void response(boolean success);
     }
 
-   /* public DownloadImage(List<String> url, Context ctx, final DownloadImageResponse response){
 
-        this.context = new WeakReference<Context>(ctx);
-        this.listImage = new CopyOnWriteArrayList<>(url);
-        this.completion = response;
-
-        existImageDirectory();
-
-        for(String imgUrl : url){
-            String fileName = new UrlFileName(imgUrl).fileName();
-            imageDownload(this.context.get(),fileName,imgUrl);
-        }
-
-    }*/
 
     public DownloadImage(ImageDataList url, Context ctx, final DownloadImageResponse response){
 
@@ -80,8 +69,15 @@ public class DownloadImage {
         }
         if (listImages.isEmpty()){
 
+            MainThreadUtil.run(new Runnable() {
+                @Override
+                public void run() {
+                    if(completion != null){
+                        completion.response(true);
+                    }
+                }
+            });
 
-            completion.response(true);
         }
 
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 
@@ -42,17 +43,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         ButterKnife.bind(this);
-
         setupShopsButton();
-
         appContext = new WeakReference<Context>(getApplicationContext());
+        loadDataAndImageWhenIsNecessary();
+    }
+
+
+
+
+    private void loadDataAndImageWhenIsNecessary() {
+
+
         PreferenciesApplication pf = new PreferenciesApplication();
-        if (pf.updateNow(this) && InternetIsOk.ConnectionIsOk(this) || true) {
+        if (pf.updateNow(this) && InternetIsOk.ConnectionIsOk(this) ||true) {
             clearImageFiles();
             clearDataBaseShop();
             clearDataBaseActivities();
+            messageLoadData();
+            activityButton.setImageResource(R.drawable.activities_black);
 
             updateShops();
             updateAcitivities();
@@ -60,8 +69,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             shopsButton.setEnabled(true);
             activityButton.setEnabled(true);
         }
+    }
 
-
+    private void messageLoadData() {
+        Toast toast = Toast.makeText(this, R.string.updatedata,Toast.LENGTH_LONG);
+        toast.show();
     }
 
     private void setupShopsButton() {
@@ -116,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         DownloadImage images = new DownloadImage(urlImage,this, new DownloadImage.DownloadImageResponse() {
             @Override
             public void response(boolean success) {
-
+                activityButton.setImageResource(R.drawable.activities);
             }
         });
     }
@@ -129,10 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new CacheAllActivityInteractor().execute(getAppContext(), activities, new CacheAllActivityInteractor.CacheAllActivityInteractorResponse() {
                     @Override
                     public void response(boolean success) {
-
                         // Descargo todas las images de las actividades incluidos mapas
-
-
                         ImageDataList imageList = ImageDataList.build();
                         for(Activity activity: activities.allActivities()){
 
@@ -146,14 +155,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                         downloadImagesActivities(imageList);
                         activityButton.setEnabled(true);
-
-
-
                     }
                 });
             }
         });
     }
+
+
 
     private void updateShops() {
         new GetAllShopsInteractor().execute(getApplicationContext(), new GetAllShopsInteractor.GetAllShopsInteractorResponse() {

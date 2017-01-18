@@ -9,4 +9,5 @@
     <!-- Detail shop -->
     <string name="how_to_arrive">Como llegar</string>
     <string name="permissionforlocation">Necesitamos que permita su localización</string>
+    <string name="updatedata">Actualizando ..</string>
 </resources>
