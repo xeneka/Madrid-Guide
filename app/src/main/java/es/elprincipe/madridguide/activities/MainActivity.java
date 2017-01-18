@@ -27,6 +27,7 @@ import es.elprincipe.madridguide.model.activity.Activities;
 import es.elprincipe.madridguide.model.activity.Activity;
 import es.elprincipe.madridguide.navigator.Navigator;
 import es.elprincipe.madridguide.util.InternetIsOk;
+import es.elprincipe.madridguide.util.NameMap;
 import es.elprincipe.madridguide.util.PreferenciesApplication;
 import es.elprincipe.madridguide.util.UrlFileName;
 
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void loadDataAndImageWhenIsNecessary() {
         PreferenciesApplication pf = new PreferenciesApplication();
+
         if(pf.updateNow(this) && !InternetIsOk.ConnectionIsOk(this)){
             Toast toast = Toast.makeText(this, R.string.imposiblereloaddata,Toast.LENGTH_LONG);
             toast.show();
@@ -68,6 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             updateShops();
             updateAcitivities();
+            pf.UpdateDateDownload(this);
         } else{
             shopsButton.setEnabled(true);
             activityButton.setEnabled(true);
@@ -154,11 +157,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             ImageData imageLogo = new ImageData(activity.getLogoImgUrl(),new UrlFileName(activity.getLogoImgUrl()).fileName() );
                             imageList.add(imageLogo);
                             String urlImageMap = "http://maps.googleapis.com/maps/api/staticmap?center="+String.valueOf(activity.getLatitude())+","+String.valueOf(activity.getLongitude())+"&zoom=17&size=320x220&scale=2&markers=%7Ccolor:0x9C7B14%7C40.452048,-3.686463&key=AIzaSyBa4vb5F5DiIvNAfJ6p2OVy46KRe1pNjxk";
-                            ImageData imageMap = new ImageData(urlImageMap,"mapa-"+activity.getName().trim()+".jpg");
+                            ImageData imageMap = new ImageData(urlImageMap, NameMap.NameMap(activity.getName()));
                             imageList.add(imageMap);
                         }
                         downloadImagesActivities(imageList);
                         activityButton.setEnabled(true);
+
                     }
                 });
             }

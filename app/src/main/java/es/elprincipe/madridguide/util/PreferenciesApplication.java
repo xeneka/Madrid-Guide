@@ -10,11 +10,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import es.elprincipe.madridguide.R;
+
 import static android.content.Context.MODE_PRIVATE;
 
 public class PreferenciesApplication {
 
     private static final String ULTIMATE_UPDATE = "ULTIMATE_UPDATE" ;
+
 
     public final void UpdateDateDownload(Context context){
 
@@ -32,12 +35,12 @@ public class PreferenciesApplication {
         boolean update = false;
 
         try{
-            date = df.parse(this.settingApp(context).getString(ULTIMATE_UPDATE,"1970-01-01"));
+            date = df.parse(this.settingApp(context).getString(ULTIMATE_UPDATE,context.getString(R.string.init_date_unix)));
         }catch (Exception e){
             Log.v(getClass().getName(), e.getMessage());
         }
 
-        if (DateUtil.getDateDifToNow(date) > 7){
+        if (DateUtil.getDateDifToNow(date) > Constants.DAY_TO_NEW_UPDATE){
             update = true;
         }
 

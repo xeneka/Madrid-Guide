@@ -21,6 +21,7 @@ import es.elprincipe.madridguide.R;
 import es.elprincipe.madridguide.interactor.activity.GetDescriptionByActivityInteractor;
 import es.elprincipe.madridguide.model.activity.Activity;
 import es.elprincipe.madridguide.model.activity.Description;
+import es.elprincipe.madridguide.util.NameMap;
 import es.elprincipe.madridguide.util.UrlFileName;
 
 public class ActivityDetailFragment extends Fragment {
@@ -60,8 +61,8 @@ public class ActivityDetailFragment extends Fragment {
         String  path = new String(String.valueOf(getContext().getFilesDir()));
         String fileName = new UrlFileName(activity.getImageUrl()).fileName();
         File fileimage = new File(path+"/images/"+fileName);
-        File fileImageMap = new File(path+"/images/"+"mapa-"+activity.getName().trim()+".jpg");
 
+        File fileImageMap = new File(path+"/images/"+NameMap.NameMap(activity.getName()));
         Picasso.with(getContext()).load(fileimage).into(activityImage);
 
         Picasso.with(getContext()).load(fileImageMap)

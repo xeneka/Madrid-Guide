@@ -18,8 +18,8 @@ public class MadridGuideApp extends Application {
 
         // Cosas de inicializar apliacation
 
-        Picasso.with(getApplicationContext()).setLoggingEnabled(true);
-        Picasso.with(getApplicationContext()).setIndicatorsEnabled(true);
+        Picasso.with(getApplicationContext()).setLoggingEnabled(false);
+        Picasso.with(getApplicationContext()).setIndicatorsEnabled(false);
 
     }
 
