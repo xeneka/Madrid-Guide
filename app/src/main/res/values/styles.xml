@@ -1,5 +1,10 @@
 <resources>
 
+<style name="backgroundText">
 
+    <item name="android:background">#FFFF</item>
+
+</style>
 
 </resources>
+

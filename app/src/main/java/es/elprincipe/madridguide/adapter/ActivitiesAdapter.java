@@ -34,7 +34,7 @@ public class ActivitiesAdapter extends RecyclerView.Adapter<ActivityRowViewHolde
     @Override
     public ActivityRowViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = layoutInflater.inflate(R.layout.row_shop,parent,false);
+        View view = layoutInflater.inflate(R.layout.row_activity,parent,false);
 
         return new ActivityRowViewHolder(view);
     }
