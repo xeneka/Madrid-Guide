@@ -42,7 +42,7 @@
             android:padding="@dimen/paddingTextView"
             android:layout_marginLeft="@dimen/marginLeft"
             android:layout_gravity="center_vertical"
-            
+
             tools:text="Una saludito para mi amiguito"
         />
 

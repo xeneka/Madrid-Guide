@@ -60,7 +60,7 @@ public class ActivityDetailFragment extends Fragment {
         String  path = new String(String.valueOf(getContext().getFilesDir()));
         String fileName = new UrlFileName(activity.getImageUrl()).fileName();
         File fileimage = new File(path+"/images/"+fileName);
-        File fileImageMap = new File(path+"/images/"+activity.getName().trim()+".jpg");
+        File fileImageMap = new File(path+"/images/"+"mapa-"+activity.getName().trim()+".jpg");
 
         Picasso.with(getContext()).load(fileimage).into(activityImage);
 

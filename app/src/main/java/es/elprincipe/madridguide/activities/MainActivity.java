@@ -140,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             imageList.add(image);
                             ImageData imageLogo = new ImageData(activity.getLogoImgUrl(),new UrlFileName(activity.getLogoImgUrl()).fileName() );
                             imageList.add(imageLogo);
-
                             String urlImageMap = "http://maps.googleapis.com/maps/api/staticmap?center="+String.valueOf(activity.getLatitude())+","+String.valueOf(activity.getLongitude())+"&zoom=17&size=320x220&scale=2&markers=%7Ccolor:0x9C7B14%7C40.452048,-3.686463&key=AIzaSyBa4vb5F5DiIvNAfJ6p2OVy46KRe1pNjxk";
                             ImageData imageMap = new ImageData(urlImageMap,"mapa-"+activity.getName().trim()+".jpg");
                             imageList.add(imageMap);
