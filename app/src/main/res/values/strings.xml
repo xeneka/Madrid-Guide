@@ -11,4 +11,5 @@
     <string name="search_activities">Busqueda en las actividades</string>
     <string name="permissionforlocation">Please Accept permission for your location</string>
     <string name="updatedata">Update data ..</string>
+    <string name="imposiblereloaddata">Can not load data. Internet connection required</string>
 </resources>

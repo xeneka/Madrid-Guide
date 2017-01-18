@@ -53,15 +53,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     private void loadDataAndImageWhenIsNecessary() {
-
-
         PreferenciesApplication pf = new PreferenciesApplication();
-        if (pf.updateNow(this) && InternetIsOk.ConnectionIsOk(this) ||true) {
+        if(pf.updateNow(this) && !InternetIsOk.ConnectionIsOk(this)){
+            Toast toast = Toast.makeText(this, R.string.imposiblereloaddata,Toast.LENGTH_LONG);
+            toast.show();
+        }
+
+
+        if (pf.updateNow(this) && InternetIsOk.ConnectionIsOk(this)) {
             clearImageFiles();
             clearDataBaseShop();
             clearDataBaseActivities();
             messageLoadData();
-            activityButton.setImageResource(R.drawable.activities_black);
 
             updateShops();
             updateAcitivities();
@@ -134,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void updateAcitivities() {
+        activityButton.setImageResource(R.drawable.activities_black);
         new GetAllActivitiesInteractor().execute(getApplicationContext(), new GetAllActivitiesInteractor.GetAllActivitiesInteractorResponse() {
             @Override
             public void response(final Activities activities) {
