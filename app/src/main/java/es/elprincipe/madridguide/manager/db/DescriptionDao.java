@@ -172,7 +172,7 @@ public class DescriptionDao implements DAOPersistable<Description> {
     public static Description getDescription(Cursor c) {
         long identifier = c.getLong(c.getColumnIndex(KEY_DESCRIPTION_ID));
         String description_text = c.getString(c.getColumnIndex(KEY_DESCRIPTION_DESCRIPTION));
-        String identifier_activity = c.getString(c.getColumnIndex(KEY_DESCRIPTION_ID));
+        String identifier_activity = c.getString(c.getColumnIndex(KEY_DESCRIPTION_ID_ACTIVITY));
         String language = c.getString(c.getColumnIndex(KEY_DESCRIPTION_LANGUAGE));
 
         Description description = new Description(identifier, language,description_text,identifier_activity);
